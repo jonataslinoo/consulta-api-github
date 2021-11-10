@@ -6,9 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.consultaapigithub.adapter.RepositorioGitAdapter
 import com.example.consultaapigithub.databinding.ActivityMainBinding
-import com.example.consultaapigithub.model.GitHub
 import com.example.consultaapigithub.model.RepositorioGit
 import com.example.consultaapigithub.retrofit.client.GitHubWebClient
+import org.koin.android.ext.android.inject
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,29 +21,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        //faz a chamada do retrofit
-//        GitHubWebClient().retornaDadosGit(
-//            //recebe a resposta de sucesso
-//            {
-//                configuraList(it.repositoriosGit)
-//                binding.txtTotalPaginas.text = it.total
-//            },
-//            //recebe a resposta de falha
-//            {
-//                Toast.makeText(this, "Falha ao buscar os dados do github.", Toast.LENGTH_LONG)
-//                    .show()
-//            })
-
-        GitHubWebClient().retornaDadosGit { gitHub: GitHub?, throwable: Throwable? ->
-            gitHub?.let {
-                configuraList(it.repositoriosGit)
-                binding.txtTotalPaginas.text = it.total
-            }
-            throwable?.let {
-                Toast.makeText(this, "Falha ao buscar os dados do github.", Toast.LENGTH_LONG)
+        GitHubWebClient().retornaDadosGit(
+            sucesso = {
+                it?.run {
+                    configuraList(it.repositoriosGit)
+                    binding.txtTotalPaginas.text = it.total
+                }
+            },
+            falha = {
+                Toast.makeText(this, it, Toast.LENGTH_LONG)
                     .show()
-            }
-        }
+            })
     }
 
     private fun configuraList(repositorioList: List<RepositorioGit>) {
