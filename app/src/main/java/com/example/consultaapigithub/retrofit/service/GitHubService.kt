@@ -12,7 +12,7 @@ import retrofit2.http.Query
 interface GitHubService {
 
     @GET("/search/repositories?q=language:kotlin&sort=stars&page=1")
-    @Headers("Authorization: token $TOKEN")
+//    @Headers("Authorization: token $TOKEN")
     fun getDataGitHub(): Call<GitHub>
 
     @GET("search/users")

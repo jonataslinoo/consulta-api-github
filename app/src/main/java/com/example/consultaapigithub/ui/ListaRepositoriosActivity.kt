@@ -3,18 +3,24 @@ package com.example.consultaapigithub.ui
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.consultaapigithub.adapter.RepositorioGitAdapter
 import com.example.consultaapigithub.databinding.ActivityMainBinding
 import com.example.consultaapigithub.model.RepositorioGit
 import com.example.consultaapigithub.retrofit.client.GitHubWebClient
-import org.koin.android.ext.android.inject
+import com.example.consultaapigithub.ui.viewmodel.ListaRepositoriosViewModel
 
 
-class MainActivity : AppCompatActivity() {
+class ListaRepositoriosActivity : AppCompatActivity() {
 
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
+    }
+
+    private val viewModel by lazy {
+        ViewModelProvider(this).get(ListaRepositoriosViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
