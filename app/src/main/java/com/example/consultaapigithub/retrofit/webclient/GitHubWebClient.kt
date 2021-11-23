@@ -1,5 +1,6 @@
-package com.example.consultaapigithub.retrofit.client
+package com.example.consultaapigithub.retrofit.webclient
 
+import com.example.consultaapigithub.model.ColecaoGit
 import com.example.consultaapigithub.model.GitHub
 import com.example.consultaapigithub.retrofit.RetrofitInitializer
 import com.example.consultaapigithub.retrofit.service.GitHubService
@@ -32,7 +33,18 @@ class GitHubWebClient(
         })
     }
 
-    fun retornaDadosGit(
+    fun buscaColecaoGit(
+        sucesso: (colecaoGit: List<ColecaoGit>?) -> Unit,
+        falha: (erro: String?) -> Unit
+    ) {
+        executaRequisicao(
+            service.buscaColecaoGit(),
+            sucesso = { it?.let { it.items } },
+            falha
+        )
+    }
+
+    fun buscaGitHub(
         sucesso: (gitHub: GitHub?) -> Unit,
         falha: (erro: String?) -> Unit
     ) {
@@ -41,6 +53,5 @@ class GitHubWebClient(
             sucesso,
             falha
         )
-
     }
 }

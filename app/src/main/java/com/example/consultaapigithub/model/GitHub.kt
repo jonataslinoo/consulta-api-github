@@ -6,5 +6,5 @@ data class GitHub(
     @SerializedName("total_count")
     val total: String,
     @SerializedName("items")
-    val repositoriosGit : List<RepositorioGit>
+    val repositoriosGit : List<ColecaoGit>
 )

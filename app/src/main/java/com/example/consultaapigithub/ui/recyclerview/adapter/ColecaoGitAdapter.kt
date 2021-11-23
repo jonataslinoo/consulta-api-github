@@ -1,13 +1,14 @@
-package com.example.consultaapigithub.adapter
+package com.example.consultaapigithub.ui.recyclerview.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.consultaapigithub.databinding.DadosgitItemBinding
-import com.example.consultaapigithub.model.RepositorioGit
+import com.example.consultaapigithub.model.ColecaoGit
 
-class RepositorioGitAdapter(private val listRepositorioGit: List<RepositorioGit>) :
-    RecyclerView.Adapter<RepositorioGitAdapter.ViewHolder>() {
+class ColecaoGitAdapter(
+    private val listColecaoGit: List<ColecaoGit>) :
+    RecyclerView.Adapter<ColecaoGitAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 //        val view = LayoutInflater.from(context).inflate(R.layout.dadosgit_item, parent, false)
@@ -19,16 +20,16 @@ class RepositorioGitAdapter(private val listRepositorioGit: List<RepositorioGit>
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            bind(listRepositorioGit[position])
+            bind(listColecaoGit[position])
         }
     }
 
-    override fun getItemCount(): Int = listRepositorioGit.size
+    override fun getItemCount(): Int = listColecaoGit.size
 
     class ViewHolder(val binding: DadosgitItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(repositorioGit: RepositorioGit) {
+        fun bind(colecaoGit: ColecaoGit) {
             binding.apply {
-                repositorioGit.apply {
+                colecaoGit.apply {
                     nomeRepositorioView.text = nomeRepositorio
                     estrelasView.text = qtdeEstrelas
                     bifurcacoesView.text = qtdeBifurcacoes
