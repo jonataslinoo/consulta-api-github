@@ -38,7 +38,7 @@ class ColecaoGitActivity : AppCompatActivity() {
         viewModel.buscaColecaoGit(
             sucesso = {
                 it?.let {
-                    configuraList(it)
+                    configuraList(it.items)
                 }
             },
             falha = {

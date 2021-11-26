@@ -1,13 +1,11 @@
 package com.example.consultaapigithub.retrofit.service
 
-import com.example.consultaapigithub.Constants.Companion.TOKEN
 import com.example.consultaapigithub.model.ColecaoGit
 import com.example.consultaapigithub.model.ColecaoGitResponse
 import com.example.consultaapigithub.model.GitHub
 import com.example.consultaapigithub.model.UserResponse
 import retrofit2.Call
 import retrofit2.http.GET
-import retrofit2.http.Headers
 import retrofit2.http.Query
 
 interface GitHubService {

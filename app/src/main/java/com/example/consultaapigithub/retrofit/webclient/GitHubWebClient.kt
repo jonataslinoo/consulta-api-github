@@ -1,6 +1,7 @@
 package com.example.consultaapigithub.retrofit.webclient
 
 import com.example.consultaapigithub.model.ColecaoGit
+import com.example.consultaapigithub.model.ColecaoGitResponse
 import com.example.consultaapigithub.model.GitHub
 import com.example.consultaapigithub.retrofit.RetrofitInitializer
 import com.example.consultaapigithub.retrofit.service.GitHubService
@@ -34,12 +35,12 @@ class GitHubWebClient(
     }
 
     fun buscaColecaoGit(
-        sucesso: (colecaoGit: List<ColecaoGit>?) -> Unit,
+        sucesso: (colecaoGit: ColecaoGitResponse?) -> Unit,
         falha: (erro: String?) -> Unit
     ) {
         executaRequisicao(
             service.buscaColecaoGit(),
-            sucesso = { it?.let { it.items } },
+            sucesso,
             falha
         )
     }
