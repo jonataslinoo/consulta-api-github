@@ -1,13 +1,14 @@
 package com.example.consultaapigithub.ui
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.consultaapigithub.databinding.ActivityMainBinding
 import com.example.consultaapigithub.model.ColecaoGit
 import com.example.consultaapigithub.repository.ColecaoGitRepository
+import com.example.consultaapigithub.ui.extensions.mostraErro
 import com.example.consultaapigithub.ui.recyclerview.adapter.ColecaoGitAdapter
 import com.example.consultaapigithub.ui.viewmodel.ColecaoGitViewModel
 import com.example.consultaapigithub.ui.viewmodel.factory.ColecaoViewModelFactory
@@ -35,31 +36,11 @@ class ColecaoGitActivity : AppCompatActivity() {
     }
 
     private fun buscaColecaoGit() {
-        viewModel.buscaColecaoGit(
-            sucesso = {
-                it?.let {
-                    configuraList(it.items)
-                }
-            },
-            falha = {
-                Toast.makeText(this, it, Toast.LENGTH_LONG)
-                    .show()
-            })
+        viewModel.buscaColecaoGit().observe(this, Observer { resource ->
+            resource.dado?.let { configuraList(it) }
+            resource.erro?.let { mostraErro(it) }
+        })
     }
-
-//    private fun buscaGitHub() {
-//        GitHubWebClient().buscaGitHub(
-//            sucesso = {
-//                it?.run {
-//                    configuraList(it.repositoriosGit)
-//                    binding.txtTotalPaginas.text = it.total
-//                }
-//            },
-//            falha = {
-//                Toast.makeText(this, it, Toast.LENGTH_LONG)
-//                    .show()
-//            })
-//    }
 
     private fun configuraList(colecaoList: List<ColecaoGit>) {
         val recyclerView = binding.recyclerviewList

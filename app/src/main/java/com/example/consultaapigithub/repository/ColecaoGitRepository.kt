@@ -1,23 +1,33 @@
 package com.example.consultaapigithub.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.consultaapigithub.model.ColecaoGit
-import com.example.consultaapigithub.model.ColecaoGitResponse
-import com.example.consultaapigithub.model.GitHub
 import com.example.consultaapigithub.retrofit.webclient.GitHubWebClient
 
 class ColecaoGitRepository(
     private val webClient: GitHubWebClient = GitHubWebClient()
 ) {
+    private val colecaoGitEncontrada = MutableLiveData<Resource<List<ColecaoGit>?>>()
 
-    fun buscaTodos(
-        sucesso: (colecaoGit: ColecaoGitResponse?) -> Unit,
-        falha: (erro: String?) -> Unit
-    ) {
-        buscaNaApi(sucesso, falha)
+    fun buscaTodos(): LiveData<Resource<List<ColecaoGit>?>> {
+        buscaNaApi(sucesso = {
+            colecaoGitEncontrada.value = Resource(dado = it)
+        }, falha = {
+            val resourceAtual = colecaoGitEncontrada.value
+            val resourceCriado: Resource<List<ColecaoGit>?> =
+                if (resourceAtual != null) {
+                    Resource(dado = resourceAtual.dado, erro = it)
+                } else {
+                    Resource(dado = null, erro = it)
+                }
+            colecaoGitEncontrada.value = resourceCriado
+        })
+        return colecaoGitEncontrada
     }
 
     private fun buscaNaApi(
-        sucesso: (colecaoGit: ColecaoGitResponse?) -> Unit,
+        sucesso: (colecaoGit: List<ColecaoGit>?) -> Unit,
         falha: (erro: String?) -> Unit
     ) {
         webClient.buscaColecaoGit(
