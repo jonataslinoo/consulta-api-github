@@ -36,7 +36,7 @@ class ColecaoGitActivity : AppCompatActivity() {
     }
 
     private fun buscaColecaoGit() {
-        viewModel.buscaColecaoGit().observe(this, Observer { resource ->
+        viewModel.buscaTodos().observe(this, Observer { resource ->
             resource.dado?.let { configuraList(it) }
             resource.erro?.let { mostraErro(it) }
         })

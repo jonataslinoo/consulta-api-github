@@ -11,18 +11,15 @@ class ColecaoGitRepository(
     private val colecaoGitEncontrada = MutableLiveData<Resource<List<ColecaoGit>?>>()
 
     fun buscaTodos(): LiveData<Resource<List<ColecaoGit>?>> {
-        buscaNaApi(sucesso = {
-            colecaoGitEncontrada.value = Resource(dado = it)
-        }, falha = {
-            val resourceAtual = colecaoGitEncontrada.value
-            val resourceCriado: Resource<List<ColecaoGit>?> =
-                if (resourceAtual != null) {
-                    Resource(dado = resourceAtual.dado, erro = it)
-                } else {
-                    Resource(dado = null, erro = it)
-                }
-            colecaoGitEncontrada.value = resourceCriado
-        })
+        buscaNaApi(
+            sucesso = { colecaoGitEncontrada.value = Resource(dado = it) },
+            falha = { erro ->
+                val resourceAtual = colecaoGitEncontrada.value
+                val resourceDeFalha = criaResourceDeFalha<List<ColecaoGit>?>(
+                    resourceAtual, erro
+                )
+                colecaoGitEncontrada.value = resourceDeFalha
+            })
         return colecaoGitEncontrada
     }
 
