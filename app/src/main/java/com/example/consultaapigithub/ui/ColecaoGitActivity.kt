@@ -32,10 +32,10 @@ class ColecaoGitActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        buscaColecaoGit()
+        buscaTodos()
     }
 
-    private fun buscaColecaoGit() {
+    private fun buscaTodos() {
         viewModel.buscaTodos().observe(this, Observer { resource ->
             resource.dado?.let { configuraList(it) }
             resource.erro?.let { mostraErro(it) }
